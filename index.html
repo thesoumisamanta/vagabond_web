@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vagabond — Connect, Explore, Share</title>
+  <meta name="description" content="Vagabond is the social platform built for explorers. Share your journeys, connect with fellow travellers, and discover the world through authentic stories." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ── Hero ── */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: 120px 40px 80px;
+      background: var(--gradient-hero);
+      position: relative; overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 50% -10%, rgba(245,158,11,0.12) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 80% 80%, rgba(245,158,11,0.05) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .hero-tag { position: relative; z-index: 1; }
+
+    .hero h1 {
+      position: relative; z-index: 1;
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
+      font-weight: 900; letter-spacing: -2px;
+      line-height: 1.05; margin: 16px 0 24px;
+      color: var(--text-primary);
+    }
+    .hero h1 em { font-style: normal; color: var(--accent); }
+
+    .hero p {
+      position: relative; z-index: 1;
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      color: var(--text-muted); max-width: 540px;
+      margin: 0 auto 40px;
+    }
+
+    .hero-btns {
+      position: relative; z-index: 1;
+      display: flex; gap: 16px; flex-wrap: wrap; justify-content: center;
+    }
+
+    .hero-badges {
+      position: relative; z-index: 1;
+      display: flex; gap: 32px; margin-top: 64px;
+      flex-wrap: wrap; justify-content: center;
+    }
+    .badge { text-align: center; }
+    .badge-num { font-size: 1.8rem; font-weight: 800; color: var(--text-primary); }
+    .badge-num span { color: var(--accent); }
+    .badge-label { font-size: 0.8rem; color: var(--text-faint); text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+
+    /* ── Features ── */
+    .features-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px; margin-top: 48px;
+    }
+
+    .feature-card {
+      padding: 32px 28px;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius);
+      transition: border-color var(--transition), transform var(--transition), box-shadow var(--transition);
+    }
+    .feature-card:hover {
+      border-color: rgba(245,158,11,0.3);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 40px rgba(245,158,11,0.08);
+    }
+
+    .feature-icon {
+      width: 48px; height: 48px; border-radius: 12px;
+      background: var(--accent-glow);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; margin-bottom: 16px;
+    }
+
+    .feature-card h3 { font-size: 1.05rem; margin-bottom: 8px; }
+    .feature-card p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.65; }
+
+    /* ── Download Section ── */
+    .download-section {
+      text-align: center;
+      padding: 100px 40px;
+      background: linear-gradient(180deg, transparent 0%, rgba(245,158,11,0.04) 50%, transparent 100%);
+      border-top: 1px solid var(--glass-border);
+      border-bottom: 1px solid var(--glass-border);
+    }
+    .download-section h2 { font-size: clamp(1.8rem, 4vw, 2.8rem); margin: 12px 0 16px; }
+    .download-section p { color: var(--text-muted); max-width: 480px; margin: 0 auto 40px; }
+
+    .store-btns { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
+    .store-btn {
+      display: flex; align-items: center; gap: 12px;
+      padding: 14px 28px;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 14px; cursor: pointer;
+      transition: all var(--transition);
+      text-decoration: none; color: var(--text-primary);
+    }
+    .store-btn:hover {
+      border-color: rgba(245,158,11,0.4); color: var(--text-primary);
+      background: rgba(255,255,255,0.06);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(245,158,11,0.1);
+    }
+    .store-btn .store-icon { font-size: 1.8rem; }
+    .store-btn .store-text small { display: block; font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+    .store-btn .store-text strong { font-size: 1rem; font-weight: 700; }
+
+    /* ── Sections text ── */
+    .section-title { font-size: clamp(1.8rem, 4vw, 2.5rem); margin: 12px 0 8px; }
+    .section-sub { color: var(--text-muted); font-size: 0.95rem; max-width: 550px; }
+
+    @media(max-width:768px) {
+      .hero { padding: 120px 20px 60px; }
+      .hero-badges { gap: 24px; }
+      .features-grid { grid-template-columns: 1fr; }
+      .download-section { padding: 64px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Navigation ──────────────────────────────────────────────────────────── -->
+<nav>
+  <div class="nav-logo">🧭 <span>Vagabond</span></div>
+  <ul class="nav-links">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#download">Download</a></li>
+    <li><a href="privacy-policy.html">Privacy</a></li>
+    <li><a href="terms.html">Terms</a></li>
+    <li><a href="#download" class="nav-cta">Get the App</a></li>
+  </ul>
+</nav>
+
+<!-- ── Hero ────────────────────────────────────────────────────────────────── -->
+<section class="hero">
+  <div class="section-tag hero-tag">✦ Your World, Your Journey</div>
+  <h1>Travel. Connect.<br/><em>Explore Together.</em></h1>
+  <p>Vagabond is the social platform built for explorers. Share your journeys, connect with fellow wanderers, and discover the world through authentic stories.</p>
+  <div class="hero-btns">
+    <a href="#download" class="btn btn-primary">📱 Get the App &rarr;</a>
+    <a href="#features" class="btn btn-ghost">See Features</a>
+  </div>
+  <div class="hero-badges">
+    <div class="badge"><div class="badge-num">50<span>K+</span></div><div class="badge-label">Explorers</div></div>
+    <div class="badge"><div class="badge-num">120<span>+</span></div><div class="badge-label">Countries</div></div>
+    <div class="badge"><div class="badge-num">1<span>M+</span></div><div class="badge-label">Stories Shared</div></div>
+  </div>
+</section>
+
+<!-- ── Features ────────────────────────────────────────────────────────────── -->
+<div class="section" id="features">
+  <div class="section-tag">Features</div>
+  <h2 class="section-title">Everything a traveller needs</h2>
+  <p class="section-sub">From sharing adventures to building real connections, Vagabond has every tool you need.</p>
+
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">📸</div>
+      <h3>Photos & Stories</h3>
+      <p>Post photos, videos, and ephemeral stories from your travels. Your audience goes wherever you go.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">💬</div>
+      <h3>Real-Time Chat</h3>
+      <p>Instant messaging with other travellers — plan meetups, share tips, and make lifelong friends on the road.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🔔</div>
+      <h3>Smart Notifications</h3>
+      <p>Stay in the loop with intelligent push notifications that respect your focus time and time zone.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🌍</div>
+      <h3>Discover Feed</h3>
+      <p>Explore curated content from explorers around the world. Let the algorithm inspire your next destination.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🔒</div>
+      <h3>Privacy First</h3>
+      <p>Full control over who sees your content. Granular privacy settings designed for safety on the go.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">⚡</div>
+      <h3>Lightning Fast</h3>
+      <p>Optimised for low-bandwidth connections. Uploading from a mountain hut? Vagabond has you covered.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ── Download ─────────────────────────────────────────────────────────────── -->
+<div class="download-section" id="download">
+  <div class="section-tag">Download</div>
+  <h2>Start your adventure today</h2>
+  <p>Available on Android. iOS coming soon. Free to download, always.</p>
+  <div class="store-btns">
+    <a href="#" class="store-btn">
+      <span class="store-icon">🤖</span>
+      <span class="store-text">
+        <small>Get it on</small>
+        <strong>Google Play</strong>
+      </span>
+    </a>
+    <a href="#" class="store-btn" style="opacity:0.5; pointer-events:none; cursor:default;">
+      <span class="store-icon">🍎</span>
+      <span class="store-text">
+        <small>Coming soon on</small>
+        <strong>App Store</strong>
+      </span>
+    </a>
+  </div>
+</div>
+
+<!-- ── Footer ───────────────────────────────────────────────────────────────── -->
+<footer>
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="privacy-policy.html">Privacy Policy</a>
+    <a href="terms.html">Terms of Service</a>
+  </div>
+  <p>&copy; <span id="year"></span> Vagabond. All rights reserved.</p>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
