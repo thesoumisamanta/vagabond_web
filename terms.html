@@ -1,155 +1,205 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Terms of Service — Vagabond</title>
-  <meta name="description" content="Read the Vagabond Terms of Service to understand the rules and guidelines governing your use of the platform." />
+  <meta name="description"
+    content="Read the Vagabond Terms of Service to understand the rules and guidelines governing your use of the platform." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
 
-<!-- ── Navigation ──────────────────────────────────────────────────────────── -->
-<nav>
-  <a class="nav-logo" href="index.html" style="text-decoration:none;">🧭 <span>Vagabond</span></a>
-  <ul class="nav-links">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="privacy-policy.html">Privacy Policy</a></li>
-    <li><a href="terms.html" class="active">Terms of Service</a></li>
-  </ul>
-</nav>
+  <!-- ── Navigation ──────────────────────────────────────────────────────────── -->
+  <nav>
+    <a class="nav-logo" href="index.html" style="text-decoration:none;">🧭 <span>Vagabond</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="privacy-policy.html">Privacy Policy</a></li>
+      <li><a href="terms.html" class="active">Terms of Service</a></li>
+    </ul>
+  </nav>
 
-<!-- ── Legal Page ───────────────────────────────────────────────────────────── -->
-<div class="legal-page">
+  <!-- ── Legal Page ───────────────────────────────────────────────────────────── -->
+  <div class="legal-page">
 
-  <!-- Hero -->
-  <div class="legal-hero" id="hero">
-    <div class="section-tag">Legal</div>
-    <h1 id="terms-title">Terms of Service</h1>
-    <p id="terms-meta">Loading…</p>
-  </div>
+    <!-- Hero -->
+    <div class="legal-hero" id="hero">
+      <div class="section-tag">Legal</div>
+      <h1 id="terms-title">Terms of Service</h1>
+      <p id="terms-meta">Loading…</p>
+    </div>
 
-  <!-- Content -->
-  <div class="legal-content">
-    <div id="content-area">
-      <!-- Loading state -->
-      <div class="state-card" id="loading-state">
-        <div class="spinner"></div>
-        <h3>Loading Terms of Service</h3>
-        <p>Fetching the latest terms from our servers…</p>
+    <!-- Content -->
+    <div class="legal-content">
+      <div id="content-area">
+        <!-- Loading state -->
+        <div class="state-card" id="loading-state">
+          <div class="spinner"></div>
+          <h3>Loading Terms of Service</h3>
+          <p>Fetching the latest terms from our servers…</p>
+        </div>
+
+        <!-- Error state (hidden initially) -->
+        <div class="state-card" id="error-state" style="display:none;">
+          <div class="error-icon">⚠️</div>
+          <h3>Could not load terms</h3>
+          <p id="error-msg">Unable to connect to the server. Please try again later.</p>
+          <button class="btn btn-ghost" onclick="loadTerms()" style="margin-top:8px;">Retry</button>
+        </div>
+
+        <!-- Terms sections (hidden until loaded) -->
+        <div id="terms-sections" style="display:none;"></div>
       </div>
-
-      <!-- Error state (hidden initially) -->
-      <div class="state-card" id="error-state" style="display:none;">
-        <div class="error-icon">⚠️</div>
-        <h3>Could not load terms</h3>
-        <p id="error-msg">Unable to connect to the server. Please try again later.</p>
-        <button class="btn btn-ghost" onclick="loadTerms()" style="margin-top:8px;">Retry</button>
-      </div>
-
-      <!-- Terms sections (hidden until loaded) -->
-      <div id="terms-sections" style="display:none;"></div>
     </div>
   </div>
-</div>
 
-<!-- ── Footer ───────────────────────────────────────────────────────────── -->
-<footer>
-  <div class="footer-links">
-    <a href="index.html">Home</a>
-    <a href="privacy-policy.html">Privacy Policy</a>
-    <a href="terms.html">Terms of Service</a>
-  </div>
-  <p>&copy; <span id="year"></span> Vagabond. All rights reserved.</p>
-</footer>
+  <!-- ── Footer ───────────────────────────────────────────────────────────── -->
+  <footer>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="privacy-policy.html">Privacy Policy</a>
+      <a href="terms.html">Terms of Service</a>
+    </div>
+    <p>&copy; <span id="year"></span> Vagabond. All rights reserved.</p>
+  </footer>
 
-<script src="config.js"></script>
-<script>
-  document.getElementById('year').textContent = new Date().getFullYear();
+  <script src="config.js"></script>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
 
-  /**
-   * Safely render a single section card.
-   * @param {string} icon - emoji icon
-   * @param {string} heading - section heading text
-   * @param {string|string[]} body - paragraph text or list of strings
-   */
-  function renderSection(icon, heading, body) {
-    const isList = Array.isArray(body);
-    const inner = isList
-      ? `<ul>${body.map(item => `<li>${escHtml(item)}</li>`).join('')}</ul>`
-      : `<p>${escHtml(body)}</p>`;
+    const SECTION_ICONS = {
+      1: '👤', // Eligibility & Account Registration
+      2: '📜', // User Generated Content & Standards
+      3: '🛡️', // Content Moderation & Reporting
+      4: '🚫', // Prohibited Uses & Conduct
+      5: '⚖️', // Intellectual Property Rights
+      6: '🗑️', // Account Deletion & Termination
+      7: '⚠️', // Disclaimer of Warranties & Liability
+      8: '🏛️', // Governing Law & Jurisdiction
+      9: '📝', // Changes to Terms
+      10: '✉️' // Contact Information
+    };
 
-    return `
+    /**
+     * Safely render a single section card.
+     */
+    function renderSectionCard(icon, heading, preamble, items, subsections, closing) {
+      let bodyHtml = '';
+
+      if (preamble) {
+        bodyHtml += `<p class="preamble">${escHtml(preamble)}</p>`;
+      }
+
+      if (Array.isArray(subsections) && subsections.length > 0) {
+        bodyHtml += subsections.map(sub => {
+          const subItems = Array.isArray(sub.items)
+            ? `<ul>${sub.items.map(i => `<li>${escHtml(i)}</li>`).join('')}</ul>`
+            : '';
+          return `
+          <div class="subsection">
+            <div class="subsection-title">${escHtml(sub.subtitle)}</div>
+            ${subItems}
+          </div>
+        `;
+        }).join('');
+      }
+
+      if (Array.isArray(items) && items.length > 0) {
+        bodyHtml += `<ul>${items.map(i => `<li>${escHtml(i)}</li>`).join('')}</ul>`;
+      } else if (typeof items === 'string' && items.trim()) {
+        bodyHtml += `<p>${escHtml(items)}</p>`;
+      }
+
+      if (closing) {
+        bodyHtml += `<p class="closing">${escHtml(closing)}</p>`;
+      }
+
+      return `
       <div class="legal-section">
         <h2>${escHtml(icon + ' ' + heading)}</h2>
-        ${inner}
+        ${bodyHtml}
       </div>
     `;
-  }
-
-  function escHtml(str) {
-    return String(str)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;');
-  }
-
-  async function loadTerms() {
-    // Reset state
-    document.getElementById('loading-state').style.display  = 'flex';
-    document.getElementById('error-state').style.display    = 'none';
-    document.getElementById('terms-sections').style.display = 'none';
-
-    try {
-      const res = await fetch(`${CONFIG.API_BASE_URL}/legal/terms`, {
-        headers: { 'Accept': 'application/json' }
-      });
-
-      if (!res.ok) throw new Error(`Server responded with ${res.status}`);
-
-      const json = await res.json();
-      const data = json.data;   // unwrap { data: {...} }
-
-      // Update hero metadata
-      document.getElementById('terms-title').textContent = data.title || 'Terms of Service';
-      document.getElementById('terms-meta').textContent  =
-        `Effective: ${data.effectiveDate || 'N/A'}  •  Version ${data.version || '1.0'}`;
-
-      // Build sections from content object
-      const c = data.content || {};
-      const sections = [
-        { icon: '👋', heading: 'Introduction',        body: c.introduction },
-        { icon: '👤', heading: 'User Accounts',       body: c.userAccounts },
-        { icon: '📜', heading: 'Content Guidelines',  body: c.contentGuidelines },
-        { icon: '🚫', heading: 'Termination',         body: c.termination },
-        { icon: '⚖️', heading: 'Governing Law',       body: c.governingLaw },
-      ];
-
-      const html = sections
-        .filter(s => s.body && (Array.isArray(s.body) ? s.body.length > 0 : s.body.trim()))
-        .map(s => renderSection(s.icon, s.heading, s.body))
-        .join('');
-
-      document.getElementById('terms-sections').innerHTML = html;
-
-      // Show sections, hide loader
-      document.getElementById('loading-state').style.display  = 'none';
-      document.getElementById('terms-sections').style.display = 'block';
-
-    } catch (err) {
-      console.error('Terms of service fetch failed:', err);
-      document.getElementById('loading-state').style.display = 'none';
-      document.getElementById('error-state').style.display   = 'flex';
-      document.getElementById('error-msg').textContent = err.message || 'Unable to connect to the server.';
     }
-  }
 
-  // Auto-load on page ready
-  loadTerms();
-</script>
+    function escHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    async function loadTerms() {
+      // Reset state
+      document.getElementById('loading-state').style.display = 'flex';
+      document.getElementById('error-state').style.display = 'none';
+      document.getElementById('terms-sections').style.display = 'none';
+
+      try {
+        const res = await fetch(`${CONFIG.API_BASE_URL}/legal/terms`, {
+          headers: { 'Accept': 'application/json' }
+        });
+
+        if (!res.ok) throw new Error(`Server responded with ${res.status}`);
+
+        const json = await res.json();
+        const data = json.data;   // unwrap { data: {...} }
+
+        // Update hero metadata
+        document.getElementById('terms-title').textContent = data.title || 'Terms of Service';
+        let meta = `Effective: ${data.effectiveDate || 'N/A'}`;
+        if (data.lastUpdated) meta += `  •  Last Updated: ${data.lastUpdated}`;
+        meta += `  •  Version ${data.version || '1.0'}`;
+        document.getElementById('terms-meta').textContent = meta;
+
+        let html = '';
+
+        if (Array.isArray(data.sections) && data.sections.length > 0) {
+          html = data.sections.map(sec => {
+            const icon = SECTION_ICONS[sec.sectionNumber] || '📜';
+            const heading = `${sec.sectionNumber ? sec.sectionNumber + '. ' : ''}${sec.title}`;
+            return renderSectionCard(icon, heading, sec.preamble, sec.items, sec.subsections, sec.closing);
+          }).join('');
+        } else {
+          // Legacy content object fallback
+          const c = data.content || {};
+          const sections = [
+            { icon: '👋', heading: 'Introduction', body: c.introduction },
+            { icon: '👤', heading: 'User Accounts', body: c.userAccounts },
+            { icon: '📜', heading: 'Content Guidelines', body: c.contentGuidelines },
+            { icon: '🚫', heading: 'Termination', body: c.termination },
+            { icon: '⚖️', heading: 'Governing Law', body: c.governingLaw },
+          ];
+          html = sections
+            .filter(s => s.body && (Array.isArray(s.body) ? s.body.length > 0 : String(s.body).trim()))
+            .map(s => renderSectionCard(s.icon, s.heading, null, s.body, null, null))
+            .join('');
+        }
+
+        document.getElementById('terms-sections').innerHTML = html;
+
+        // Show sections, hide loader
+        document.getElementById('loading-state').style.display = 'none';
+        document.getElementById('terms-sections').style.display = 'block';
+
+      } catch (err) {
+        console.error('Terms of service fetch failed:', err);
+        document.getElementById('loading-state').style.display = 'none';
+        document.getElementById('error-state').style.display = 'flex';
+        document.getElementById('error-msg').textContent = err.message || 'Unable to connect to the server.';
+      }
+    }
+
+    // Auto-load on page ready
+    loadTerms();
+  </script>
 </body>
+
 </html>
